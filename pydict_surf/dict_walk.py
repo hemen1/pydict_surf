@@ -1,6 +1,5 @@
 from collections import OrderedDict
 
-class DictWalk(OrderedDict):
-
+class DictWalker(OrderedDict):
     def walk(self):
         pass

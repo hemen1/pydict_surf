@@ -7,7 +7,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_upper(self):
         with open('template.json', 'r') as f:
-            walks = DictWalk(json.load(f))
+            walks = DictWalker(json.load(f))
         it1 = walks.walk()
         self.assertEqual(next(it1), ([], [], [], [], ""))
         self.assertEqual(next(it1), ([], [], [], [], ""))
