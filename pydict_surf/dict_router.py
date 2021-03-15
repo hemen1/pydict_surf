@@ -1,5 +1,8 @@
-"""A toolkit to
-
+"""A toolkit to route inside a nested dictionary and list.
+The item is specifically designed for routing inside a json dictionary. It can route inside a
+key, outside it, and to a specific address. The class is also capable of updating and reading
+keys. The usage of this class is almost like the os command system as it has chdict (instead of
+chdir), pwdict (instead of pwd), etc
 """
 from abc import ABC
 from collections import OrderedDict
@@ -9,7 +12,7 @@ from jsonpath_ng import jsonpath, parse
 
 class DictRouter(object):
     functional_keys = ['.', '..'] 
-    def __init__(self, reference_dict:Any, dict_location:str = None):
+    def __init__(self, reference_dict:Union[list, dict], dict_location:str = None):
         self.reference_dict = reference_dict
         self.dict_location = dict_location or "" 
 
@@ -51,7 +54,12 @@ class DictRouter(object):
             self.dict_location += f".{key_name}"
 
     def listdict(self, key_name:str = None):
-        return list(self.dict_pointer.keys())
+        if isinstance(self.dict_pointer, dict):
+            return list(self.dict_pointer.keys())
+        elif isinstance(self.dict_pointer, list):
+            return list(range(len(self.dict_pointer)))
+        else:
+            raise ValueError("Object type is not supported; only list and dict is acceptable")
     
     def list_nested(self, key_name:str = None):
         return [
