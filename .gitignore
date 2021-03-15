@@ -128,6 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+<<<<<<< HEAD
 # Test Folder
 test/
 
@@ -136,3 +137,13 @@ test/
 
 # Mac file system
 .DS_Store
+=======
+# Test folder
+test/*.json
+
+# Mac Filesystem
+.DS_Store
+
+# VSCode
+.vscode
+>>>>>>> dev
