@@ -4,19 +4,6 @@ from collections import deque
 from typing import Union, Any
 from jsonpath_ng import jsonpath, parse
 
-class DictWalker(OrderedDict):
-    def __init__(reference_dict:dict):
-        self.reference_dict = reference_dict
-
-    def walk(self):
-       pass
-
-    def iterate(self, mode:str = "bfs", depth:int = -1):
-        iterable = SubDict_Object()
-        
-        iter_pointer.append()
-
-
 class DictIterator(ABC):
     functional_keys = ['.', '..'] 
     def __init__(self, reference_dict:Any, dict_location:str = None):
@@ -33,12 +20,10 @@ class DictIterator(ABC):
 
         key_names = key_name.split(".")
         if from_root:
-            self.dict_pointer = self.reference_dict
-            self.dict_location = ""
-        else:
-            pass
+            self._chdict_itemwise("")
+
         for key_item in key_names:
-            if key_item[0] == '[':
+            if len(key_item) and key_item[0] == '[':
                 key_item = int(key_item[1:-1])
             self._chdict_itemwise(key_item)
         
@@ -50,7 +35,11 @@ class DictIterator(ABC):
                 raise ValueError("Array out of bound")
             self.dict_pointer = self.dict_pointer[key_name]
             self.dict_location += f".[{key_name}]"
-        elif isinstance(key_name, str) and key_name not in self.functional_keys:
+        elif isinstance(key_name, str):
+            if key_name == "":
+                self.dict_pointer = self.reference_dict
+                self.dict_location = ""
+                return
             if not isinstance(self.dict_pointer, dict):
                 raise ValueError("String key passed while the iterable is not dict")
             if key_name not in self.list_nested():
@@ -73,9 +62,3 @@ class DictIterator(ABC):
 
     def pwdict(self):
         return self.dict_location
-
-
-    
-    
-    
-
