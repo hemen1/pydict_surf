@@ -1,10 +1,13 @@
+"""A toolkit to
+
+"""
 from abc import ABC
 from collections import OrderedDict
 from collections import deque
 from typing import Union, Any
 from jsonpath_ng import jsonpath, parse
 
-class DictIterator(object):
+class DictRouter(object):
     functional_keys = ['.', '..'] 
     def __init__(self, reference_dict:Any, dict_location:str = None):
         self.reference_dict = reference_dict
@@ -13,7 +16,7 @@ class DictIterator(object):
         self.dict_pointer = self.reference_dict
 
     def chdict(self, key_name:str, from_root:bool = False):
-        if key_name in DictIterator.functional_keys:
+        if key_name in DictRouter.functional_keys:
             if key_name == '..':
                 key_name = self.dict_location[:self.dict_location.rfind('.')]
                 from_root = True
