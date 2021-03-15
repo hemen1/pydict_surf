@@ -20,9 +20,9 @@ with open("README.md", "r") as fh:
 
 metadata = dict(
     name=package_name,  # Replace with your own username
-    version="0.7.24",
-    author="Soroush Zargar, Hemen Zandi",
-    author_email="Soroushzargar@gmail.com, Hemen.Zandi@gmail.com",
+    version="0.7.27",
+    author=["Soroush Zargar", "Hemen Zandi"],
+    author_email=["Soroushzargar@gmail.com", "Hemen.Zandi@gmail.com"],
     description="Performs a walk over all fields of json and python dictionary. Works almost same as os.walk",
     long_description=long_description,
     long_description_data_type="",
