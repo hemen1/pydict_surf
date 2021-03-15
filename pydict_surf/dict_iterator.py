@@ -4,7 +4,7 @@ from collections import deque
 from typing import Union, Any
 from jsonpath_ng import jsonpath, parse
 
-class DictIterator(ABC):
+class DictIterator(object):
     functional_keys = ['.', '..'] 
     def __init__(self, reference_dict:Any, dict_location:str = None):
         self.reference_dict = reference_dict
@@ -62,3 +62,32 @@ class DictIterator(ABC):
 
     def pwdict(self):
         return self.dict_location
+
+    def update(self, key, value, force=True):
+        if '.' in key:
+            if key in self.listdict() or force:
+                self.dict_pointer[key] = value
+            else:
+                raise KeyError(f"Key: {key} Does not exist")
+        else:
+            relocation_addr = key[:key.rfind(".")]
+            key = key.split(".")[-1]
+            backup_addr = self.dict_location
+            self.chdict(relocation_addr)
+            self.update(key, value, force)
+            self.chdict(backup_addr)
+
+    def get(self, key, default=None):
+        if '.' in key:
+            if key in self.listdict():
+                return self.dict_pointer[key]
+            else:
+                return default
+        else:
+            relocation_addr = key[:key.rfind(".")]
+            key = key.split(".")[-1]
+            backup_addr = self.dict_location
+            self.chdict(relocation_addr)
+            value = self.get(key, default)
+            self.chdict(backup_addr)
+            return value
